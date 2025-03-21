@@ -160,7 +160,7 @@ const mentors = [
         // ამოვიღე სტუდენტების აიდები
         // შევქმენი  ცვლადი სადაც ვინახავ სტუდენტების  ყველა ქულას.
         // შევქმენი ახალი არაი სადაც შევინახე სტუდენტების ქულები
-// 4️⃣  გავაკთო მესამე ფორი სადაც გადავირბენ სტუდენტების ქულებზე  და დავთვლი მათ ქულების ჯამს
+// 4️⃣  გავაკთო მესამე ფორი სადაც გადავირბენ სტუდენტების ქულებზე და დავალაგები კლებადობის მიხედვით
             
 
 // სტუდენტების მასივი, სადაც თითოეული სტუდენტის ქულა იქნება შენახული.
@@ -169,21 +169,43 @@ const mentors = [
 
 
 
-let wallOfFame;
+  
+let wallOfFame = []; 
 
 for(let i = 0; i < mentors.length; i++){
-    console.log(`mentors : ${mentors[i].id}`) // მენტორების ID  ამოღება; 
+    // console.log(`mentors : ${mentors[i].id}`) // მენტორების ID  ამოღება; 
     let students =  mentors[i].students; 
     for(let j = 0; j < students.length; j++){
         //console.log(`students : ${students[j].firstName} ${students[j].lastName}`); //  სტუდენტების  სახელი და გვარები
-        console.log(`studets ID : ${students[j].id}`);
+        // console.log(`studets ID : ${students[j].id}`);
         let studentesAllscore =  students[j].allScores; // ვინახავ სტუდენტების  ყველა ქულებს 
         let stutentScoreArray = [...studentesAllscore]  // ვინახავ სტუდენტების ქულებს მასივებად
-        console.log(stutentScoreArray);
+        // console.log(stutentScoreArray);
+
+        let totalScore = 0;
+        for (let k = 0; k < studentesAllscore.length; k++) {
+            totalScore += studentesAllscore[k]; // ვამატებთ თითოეულ ქულას
+        }
+        students[j].totalScore = totalScore;
+        // console.log(totalScore);
+        
+        wallOfFame.push({ id: students[j].id, score: totalScore }); // ვამატებთ ობიექტს, სადაც არის სტუდენტის ID და მისი ჯამური ქულა
     }
-    
 }
 
+ 
+for (let i = 0; i < wallOfFame.length - 1; i++) {
+    for (let j = i + 1; j < wallOfFame.length; j++) {
+        if (wallOfFame[i].score < wallOfFame[j].score) {
+            let change = wallOfFame[i];
+            wallOfFame[i] = wallOfFame[j];
+            wallOfFame[j] = change;
+        }
+    }
+}
 
+wallOfFame = wallOfFame.map(student => student.id);
 
-
+console.log("Leaderboard:", wallOfFame);
+ 
+ 
